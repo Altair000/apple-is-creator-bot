@@ -1,0 +1,4 @@
+telebot
+logging
+pyyaml
+bs4
