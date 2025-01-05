@@ -67,25 +67,24 @@ def primer_nombre(message):
     global password  # Usar variable global
     password = message.text
     bot.reply_to(message, "Ingrese su primer nombre comenzando con mayuscula: ")
-    bot.register_next_step_handler(message, segundo_nombre)
+    bot.register_next_step_handler(message, apellido)
 
-def segundo_nombre(message):
+def apellido(message):
     global first_name  # Usar variable global
     first_name = message.text
-    bot.reply_to(message, "Ingrese su segundo nombre comenzando con mayuscula: ")
+    bot.reply_to(message, "Ingrese su apellido comenzando con mayuscula: ")
     bot.register_next_step_handler(message, cumple)
 
 def cumple(message):
     global last_name  # Usar variable global
     last_name = message.text
     bot.reply_to(message, "Ingrese su fecha de nacimiento en el siguiente formato 'Año-Mes-Día': ")
-    bot.register_next_step_handler(message, segundo_nombre)
+    bot.register_next_step_handler(message, finish)
 
 def finish(message):
     global birth  # Usar variable global
     birth = message.text
-    bot.reply_to(message, "")
-    bot.register_next_step_handler(message, segundo_nombre)
+    bot.reply_to(message, "Por favor espere...")
     validate_info(scnt, widgetKey, sessionId, email, password, first_name, last_name, birth, captcha, captcha_token, captcha_id)
     Id = verification(scnt, widgetKey, sessionId, email, first_name, last_name)
     msg, status = send_verify_code(scnt, widgetKey, email, sessionId, Id)
