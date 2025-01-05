@@ -35,10 +35,11 @@ def send_welcome(message):
     chat_id = message.chat.id
     bot.reply_to(message, "¡Hola! Soy un bot para crear cuentas de Apple ID. Pulse el botón para comenzar")
     # Crear un teclado inline
-    markup = InlineKeyboardMarkup()
+    markup = types.InlineKeyboardMarkup()
     # Agregar un botón
-    btn = InlineKeyboardButton("Haz clic aquí para iniciar el proceso", callback_data="register")
+    btn = types.InlineKeyboardButton("Haz clic aquí para iniciar el proceso", callback_data="register")
     markup.add(btn)  # Agregar el botón al teclado
+    bot.send_message(chat_id, "Seleccione una opción:", reply_markup=markup)
 
 @bot.callback_query_handler(func=lambda call: call.data == "register")
 def handle_button_click(call):
