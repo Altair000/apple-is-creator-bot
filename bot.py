@@ -92,6 +92,11 @@ def finish(message):
     bot.send_message(chat_id, msg)
     bot.send_message(chat_id, status)
 
+@bot.message_handler(commands=['log'])
+def send_log(message):
+    chat_id = message.chat.id
+    bot.send_document(chat_id, 'app.log')
+
 if __name__ == '__main__':
     print("Bot Ejecutando")
     bot.infinity_polling()
