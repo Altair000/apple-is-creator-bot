@@ -182,8 +182,11 @@ def verification(scnt, widgetKey, sessionId, email, first_name, last_name):
 
     verification = requests.post('https://appleid.apple.com/account/verification', headers=headers, json=json_data)
     verification_json = verification.json()
-    Id = verification_json['verificationId']
-    return Id
+    try:
+        Id = verification_json['verificationId']
+        return Id
+    except KeyError:
+        print(verification_json)
 
 def send_verify_code(scnt, widgetKey, email, sessionId, Id):
     headers = {
