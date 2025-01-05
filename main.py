@@ -1,6 +1,7 @@
+import logging
 import base64
 import json
-from curl_cffi import requests
+import requests
 from bs4 import BeautifulSoup
 
 UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36'
@@ -57,7 +58,7 @@ def get_captcha(scnt, widgetKey, sessionId):
     }
     try:
         captcha = requests.post('https://appleid.apple.com/captcha', headers=headers, json=json_data)
-        captcha.raise_for_status(
+        captcha.raise_for_status()
         captcha_json = captcha.json()
         captcha_img_encode = captcha_json['payload']['content']
         captcha_img_decode = base64.b64decode(captcha_img_encode)
@@ -146,8 +147,9 @@ def validate_info(scnt, widgetKey, sessionId, email, password, first_name, last_
     }
     try:
         validate = requests.post('https://appleid.apple.com/account/validate', headers=headers, json=json_data)
-        validate.raise_for_status(
+        validate.raise_for_status()
         validate_json = validate.json()
+        logging.info(validate_json)
         if validate.status_code == 200:
             name = validate_json['account']['name']
             first_name = validate_json['account']['person']['name']['firstName']
@@ -158,7 +160,7 @@ def validate_info(scnt, widgetKey, sessionId, email, password, first_name, last_
                 message = validate_json['service_errors'][0]['message']
                 logging.error(message)
             except KeyError:
-            logging.error(validate_json
+                logging.error(validate_json)
         else:
             logging.error(f"Error en la validación: {validate.status_code}")
     except requests.exceptions.RequestException as e:
@@ -204,8 +206,9 @@ def verification(scnt, widgetKey, sessionId, email, first_name, last_name):
         }
         logging.info(f"Enviando solicitud de verificación para el correo {email}...")
         verification = requests.post('https://appleid.apple.com/account/verification', headers=headers, json=json_data)
-        verification_response.raise_for_status()
+        verification.raise_for_status()
         verification_json = verification.json()
+        logging.info(verification_json)
         logging.info('Proceso de verificación completado.')
         try:
             Id = verification_json['verificationId']
