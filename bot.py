@@ -93,9 +93,15 @@ def finish(message):
     bot.send_message(chat_id, status)
 
 @bot.message_handler(commands=['log'])
-def send_log(message):
-    chat_id = message.chat.id
-    bot.send_document(chat_id, 'app.log')
+def send_document(message):
+    try:
+        # Ruta del archivo a enviar
+        documento = open('app.log', 'rb')
+        # Enviar el documento al usuario
+        bot.send_document(chat_id=message.chat.id, document=documento, caption="Aquí está el log de la app ☺️")
+        documento.close()
+    except Exception as e:
+        bot.send_message(chat_id=message.chat.id, text=f"Error al enviar el documento: {e}")
 
 if __name__ == '__main__':
     print("Bot Ejecutando")
