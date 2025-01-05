@@ -1,5 +1,6 @@
 import yaml
 import telebot
+from telebot import types
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 from main import home, get_captcha, validate_info, verification, send_verify_code
 
